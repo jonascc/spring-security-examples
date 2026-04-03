@@ -1,20 +1,26 @@
 package com.jonas.spring_security_examples.users;
 
-import jakarta.persistence.Entity;
-import org.springframework.data.annotation.Id;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-//Implementing the User class only as a JPA entity
-@Entity
-public class User {
+import java.util.Collection;
+import java.util.List;
 
-    @Id
-    private int id;
+public class User implements UserDetails {
+
     private String username;
     private String password;
     private String authority;
 
-    public int getId() {
-        return id;
+    public User(String username, String password, String authority) {
+        this.username = username;
+        this.password = password;
+        this.authority = authority;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(() -> authority);
     }
 
     public String getUsername() {
