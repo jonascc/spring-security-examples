@@ -16,22 +16,22 @@ public class SpringSecurityExamplesApplication {
 		SpringApplication.run(SpringSecurityExamplesApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner commandLineRunner() {
-		return args -> {
-			String salt = KeyGenerators.string().generateKey();
-			String password = "secret";
-			String valueToEncrypt = "HELLO";
-
-			BytesEncryptor e = Encryptors.stronger(password, salt);
-			byte[] encrypted = e.encrypt(valueToEncrypt.getBytes());
-			String encryptedString = new String(encrypted);
-			String decrypted = new String(e.decrypt(encrypted));
-
-			TextEncryptor te = Encryptors.text(password, salt);
-			String encryptedText = te.encrypt(valueToEncrypt);
-			String decryptedText = te.decrypt(encryptedText);
-		};
-	}
+//	@Bean
+//	public CommandLineRunner commandLineRunner() {
+//		return args -> {
+//			String salt = KeyGenerators.string().generateKey();
+//			String password = "secret";
+//			String valueToEncrypt = "HELLO";
+//
+//			BytesEncryptor e = Encryptors.stronger(password, salt);
+//			byte[] encrypted = e.encrypt(valueToEncrypt.getBytes());
+//			String encryptedString = new String(encrypted);
+//			String decrypted = new String(e.decrypt(encrypted));
+//
+//			TextEncryptor te = Encryptors.text(password, salt);
+//			String encryptedText = te.encrypt(valueToEncrypt);
+//			String decryptedText = te.decrypt(encryptedText);
+//		};
+//	}
 
 }
