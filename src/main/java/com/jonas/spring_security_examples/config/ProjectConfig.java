@@ -2,6 +2,7 @@ package com.jonas.spring_security_examples.config;
 
 import com.jonas.spring_security_examples.filters.AuthenticationLoggingFilter;
 import com.jonas.spring_security_examples.filters.RequestValidationFilter;
+import com.jonas.spring_security_examples.filters.StaticKeyAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,10 +40,15 @@ public class ProjectConfig {
 //        return NoOpPasswordEncoder.getInstance();
 //    }
 
+    private final StaticKeyAuthenticationFilter filter;
+
+    public ProjectConfig(StaticKeyAuthenticationFilter filter) {
+        this.filter = filter;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception {
-        http.addFilterBefore(new RequestValidationFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new AuthenticationLoggingFilter(), BasicAuthenticationFilter.class)
+        http.addFilterAt(filter, BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(c -> c.anyRequest().permitAll());
         return http.build();
     }
